@@ -1,3 +1,4 @@
+// algunas clases no aparecen, las que no aparecen son las de ionic
 ion-content {
 	--background: #fff;
 	padding: 0 0 16px 0;
@@ -11,6 +12,8 @@ ion-content {
 	color: #fff;
 	border-bottom-left-radius: 24px;
 	border-bottom-right-radius: 24px;
+	font-size: 29px;
+	text-align: center;
 }
 .cart-icon {
 	font-size: 2rem;
@@ -18,6 +21,8 @@ ion-content {
 .title {
 	font-size: 1.3rem;
 	font-weight: 600;
+	text-align: center;
+	font-size: 30px;
 }
 .empty-cart {
 	display: flex;
@@ -100,4 +105,9 @@ ion-content {
 	padding: 12px 0;
 	font-size: 1.1rem;
 	margin-top: 12px;
+}
+#imagen2 {
+	width: 125px;
+	height: 115px;
+	margin-left: 20px;
 }

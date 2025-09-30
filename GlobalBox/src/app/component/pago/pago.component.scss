@@ -1,0 +1,45 @@
+ion-card {
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 12px;
+}
+
+ion-list {
+  margin-bottom: 20px;
+}
+
+ion-button {
+  background-color: #00b894;
+  color: white;
+  margin-top: 10px;
+}
+
+ion-button:hover {
+  background-color: #00997a;
+}
+ion-header {
+  background-color: #003366;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+ion-toolbar {
+  --background: #003366;
+  color: white;
+}
+#tituloPago {
+    font-size: 30px;
+    font-weight: bold;
+}
+.header-content {
+    display: flex;
+    align-items: center; 
+    padding: 0 16px; 
+    width: 100%; 
+    min-height: 56px; 
+}
+#logoPago {
+    width: 120px;
+    height: 120px;
+    margin-right: 10px; 
+}

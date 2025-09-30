@@ -1,14 +1,14 @@
 
 <ion-content>
   <div class="header">
-    <ion-icon name="cart" class="cart-icon"></ion-icon>
-    <span class="title">Mi Carrito</span>
+    <ion-img id="imagen2" src="assets/icon/no-words-gb.png"></ion-img>
+    <span class="title">Mi Carrito 🛒</span>
   </div>
   <div *ngIf="carrito.length === 0" class="empty-cart">
     <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png" alt="Carrito vacío" class="empty-img" />
     <div class="empty-text">Tu carrito está vacío</div>
   </div>
-  <div *ngIf="carrito.length > 0" class="cart-list">
+  <div *ngIf="carrito.length > 0" class="cart-list"> <!-- visto en clase y yt-->
     <div class="cart-item" *ngFor="let item of carrito">
       <img [src]="item.imagen" [alt]="item.nombre" class="item-img" />
       <div class="item-info">
@@ -20,8 +20,8 @@
         </div>
       </div>
       <button ion-button class="remove-btn" (click)="eliminarDelCarrito(item)">
-        <ion-icon name="trash-outline" z-index= 5></ion-icon>
-      </button>
+        <ion-icon src="assets/icon/close-circle-outline.svg" z-index= 5></ion-icon>
+      </button> <!-- botón para eliminar, revisar el icono para q se vea -->
     </div>
     <div class="cart-summary">
       <div class="summary-row">
@@ -36,7 +36,7 @@
         <span>Total</span>
         <span>${{ totalUSD }} USD</span>
       </div>
-      <button ion-button class="checkout-btn">Finalizar compra</button>
+      <button ion-button class="checkout-btn" (click)="router.navigate(['/pago'])">Finalizar compra</button>
     </div>
   </div>
 </ion-content>

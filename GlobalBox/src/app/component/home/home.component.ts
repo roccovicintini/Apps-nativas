@@ -21,6 +21,8 @@ import {
   homeOutline,
   closeCircleOutline
 } from 'ionicons/icons';
+import { Router } from '@angular/router';
+import { IonBadge } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-home',
@@ -111,13 +113,14 @@ export class HomeComponent {
 
   buttonStates: { [key: number]: { text: string; color: string } } = {};
   isAdding: { [key: number]: boolean } = {};
-  // Nueva variable para los productos filtrados
-  productoBuscado: Producto[] = [];  // Array para almacenar los productos filtrados
+  // nueva variable para los productos filtrados
+  productoBuscado: Producto[] = [];  // meto un array para almacenar los productos filtrados
 // productoBuscado= any;
   
   constructor(
     private productosService: ProductosService,
-    private carritoService: CarritoService
+    private carritoService: CarritoService,
+    private router: Router
   ) {
     addIcons({
       heartOutline,
@@ -142,14 +145,14 @@ export class HomeComponent {
       this.cartTotal = this.cartSubtotal + this.shippingCost + this.taxes;
       this.cartTotalARS = Math.round(this.cartTotal * 500);
     });
-    // Inicializa productoBuscado con todos los productos
+    // inicializa productoBuscado con todos los productos
     this.productoBuscado = [...this.productos];
   
   }
 buscarProducto(event: any) {
     const text = event.target.value;
     if (!text || text.trim() === '') {
-      this.productoBuscado = [...this.productos];  // Restaura todos los productos si no hay texto
+      this.productoBuscado = [...this.productos];  // acá restaura todos los productos si no hay texto
     } else {
       this.productoBuscado = this.productos.filter((producto: Producto) => {
         return producto.nombre.toLowerCase().indexOf(text.toLowerCase()) > -1;
@@ -172,7 +175,7 @@ buscarProducto(event: any) {
   }
 
   goToCategory(category: any) {
-    // navegación a la categoría (puedes implementar router)
+    // navegación a la categoría, agregarlo
     alert('Ir a categoría: ' + category.name);
   }
 
@@ -182,11 +185,11 @@ buscarProducto(event: any) {
   }
 
   toggleCart() {
-    this.showCart = !this.showCart;
+    this.showCart = !this.showCart; //arreglar esto después
   }
 
   toggleMenu() {
-    //  abrir menú lateral
+    //  abrir menú lateral, usar más tarde
     alert('Abrir menú lateral');
   }
 
@@ -202,7 +205,7 @@ buscarProducto(event: any) {
     if (item.cantidad > 1) {
       this.carritoService.updateCantidad(item.id, item.cantidad - 1);
     }
-  }
+  } 
 
   increaseQuantity(item: any) {
     this.carritoService.updateCantidad(item.id, item.cantidad + 1);
@@ -225,4 +228,4 @@ buscarProducto(event: any) {
 document.getElementById("agregated")?.addEventListener('click', function() {
   this.style.backgroundColor = 'green';
   this.textContent = 'Agregado';
-});
+}); // corregir para el botón de agregar al carrito

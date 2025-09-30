@@ -22,6 +22,8 @@ import {
   closeCircleOutline,
   trashOutline,
 } from 'ionicons/icons';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-carrito',
@@ -34,7 +36,7 @@ export class CarritoComponent implements OnDestroy {
   carrito: CarritoItem[] = [];
   sub: Subscription;
 
-  constructor(private carritoService: CarritoService) {
+  constructor(private carritoService: CarritoService, public router: Router) {
     this.sub = this.carritoService.carrito$.subscribe(items => {
       this.carrito = items;
     });

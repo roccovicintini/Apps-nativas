@@ -33,7 +33,6 @@
     </ion-toolbar>
   </ion-header>
 
-  <!-- contenido principal -->
   <ion-content class="ion-padding"> <!-- esta clase de ionic agrega padding al contenido-->
 
     <ion-card class="hero-card gradient-bg"> <!-- clase personalizada para el fondo degradado -->
@@ -143,15 +142,16 @@
                   <ion-img [src]="producto.imagen"></ion-img>
                   <span *ngIf="producto.envioGratis" class="badge-free">Envío gratis</span>  <!-- arreglar-->
       <span *ngIf="producto.descuento" class="badge-offer">{{ producto.descuento }}% OFF</span> <!-- arreglar-->
-                   <ion-button fill="clear" class="favorite-btn" (click)="toggleFavorite(producto)"> <!--arreglar-->
-                <ion-icon 
-                  [name]="producto.isFavorite ? 'heart-outline' : 'heart-outline'" 
-                  [style.color]="producto.isFavorite ? 'red' : '#666'"></ion-icon>
-                  </ion-button>
+                   <ion-button fill="clear" class="favorite-btn" (click)="toggleFavorite(producto)">
+                    <ion-icon 
+                         [name]="producto.isFavorite ? 'heart-outline' : 'heart-outline'" 
+                         [style.color]="producto.isFavorite ? 'red' : '#666'">
+                    </ion-icon>
+                    </ion-button>
                 </div>
                 <ion-card-content>
                   <div class="flag-container"> 
-                    <span class="flag-icon" [ngClass]="producto.flag"></span> 
+                    <span class="flag-icon" [ngClass]="producto.flag"></span>  <!-- la bandera no aparece, arreglar -->
                     <span>{{ producto.pais }}</span>
                   </div>
                   <ion-card-title>{{ producto.nombre }}</ion-card-title>
@@ -168,7 +168,7 @@
                   <p class="price">{{ producto.precioUSD }} USD</p>
                   <p class="ars-price">${{ producto.precioARS }} ARS (Impuestos incluidos)</p>
                   <ion-button id="agregated" expand="block" (click)="addToCart(producto)">
-                    <ion-icon name="cart" slot="start"></ion-icon> Agregar   <!--arreglar-->
+                    <ion-icon src="assets/icon/cart-outline.svg" slot="start"></ion-icon> Agregar   <!--arreglar-->
                   </ion-button>
                 </ion-card-content>
               </ion-card>

@@ -41,4 +41,9 @@ export class CarritoService {
   clear() {
     this.carritoSubject.next([]);
   }
+  clearCarrito() {
+    this.carritoSubject.next([]);
+  }
 }
+
+  

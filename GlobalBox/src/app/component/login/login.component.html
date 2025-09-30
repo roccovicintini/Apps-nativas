@@ -1,3 +1,33 @@
-<p>
-  login works!
-</p>
+<ion-header>
+  <div id="headerLogin">
+    <ion-toolbar>
+      <div class="header-content">
+        <ion-img src="assets/icon/no-words-gb.png" id="logoLogin"></ion-img>
+        <span id="tituloLogin"><strong>GlobalBox- Inicio de Sesión →</strong></span>
+      </div>
+    </ion-toolbar>
+  </div>
+</ion-header>
+
+<ion-content class="ion-padding" id="loginContent">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Inicie Sesión con su cuenta</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-input [(ngModel)]="usuario" placeholder="Usuario" type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="contrasena" placeholder="Contraseña" type="password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="email" placeholder="Correo Electrónico" type="email"></ion-input>
+      </ion-item>
+      <ion-button expand="block" (click)="onLogin()">Iniciar Sesión</ion-button>
+      <p class="error" *ngIf="mensajeError">{{ mensajeError }}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content> 
+<!-- revisar estilos en global.scss -->
+ <!-- agregar apartado para crear usuario y contraseña-->
