@@ -1,0 +1,42 @@
+
+<ion-content>
+  <div class="header">
+    <ion-icon name="cart" class="cart-icon"></ion-icon>
+    <span class="title">Mi Carrito</span>
+  </div>
+  <div *ngIf="carrito.length === 0" class="empty-cart">
+    <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png" alt="Carrito vacío" class="empty-img" />
+    <div class="empty-text">Tu carrito está vacío</div>
+  </div>
+  <div *ngIf="carrito.length > 0" class="cart-list">
+    <div class="cart-item" *ngFor="let item of carrito">
+      <img [src]="item.imagen" [alt]="item.nombre" class="item-img" />
+      <div class="item-info">
+        <div class="item-nombre">{{ item.nombre }}</div>
+        <div class="item-precio">${{ item.precioUSD }} USD</div>
+        <div class="item-cantidad">
+          Cantidad:
+          <input type="number" min="1" [value]="item.cantidad" (change)="cambiarCantidad(item, $event.target.valueAsNumber)" style="width: 48px; margin-left: 4px;" />
+        </div>
+      </div>
+      <button ion-button class="remove-btn" (click)="eliminarDelCarrito(item)">
+        <ion-icon name="trash-outline" z-index= 5></ion-icon>
+      </button>
+    </div>
+    <div class="cart-summary">
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span>${{ subtotalUSD }} USD</span>
+      </div>
+      <div class="summary-row">
+        <span>Envío</span>
+        <span>${{ envioUSD }} USD</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span>${{ totalUSD }} USD</span>
+      </div>
+      <button ion-button class="checkout-btn">Finalizar compra</button>
+    </div>
+  </div>
+</ion-content>

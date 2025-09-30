@@ -1,0 +1,181 @@
+
+<!-- home content, sin <ion-app> para que funcione con TabsPage -->
+  <!-- header -->
+  <ion-header>
+    <ion-toolbar>
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="2">
+              <div class="logo-container" style="display: flex; align-items: center;">
+                <img src="assets/icon/no-words-gb.png" alt="GlobalBox Logo" style="height: 120px; width: 120px; margin-right: 12px;" />
+                <span style="color: white; font-size: 2rem; font-weight: 700;">GlobalBox</span>
+              </div>
+          </ion-col>
+          <ion-col size="6">
+            <title>GlobalBox</title>
+            <ion-searchbar placeholder="Buscar productos..." animated (ionInput)="buscarProducto($event)"></ion-searchbar>
+          </ion-col>
+          <ion-col size="4" class="ion-text-right"> <!-- esta clase de ionic alinea a la derecha -->
+              <ion-button fill="clear" (click)="toggleFavorite(productos)">
+              <ion-icon name="heart-outline" slot="icon-only" style="font-size: 2.2rem;"></ion-icon>
+              <ion-badge color="danger">{{ favoriteCount }}</ion-badge> <!-- agregar contador de favoritos -->
+            </ion-button>
+            <ion-button fill="clear" (click)="toggleCart()">
+              <ion-icon name="cart-outline" slot="icon-only" style="font-size: 3rem;"></ion-icon>
+              <ion-badge color="success">{{ cartCount }}</ion-badge>
+            </ion-button>
+            <ion-button fill="clear" (click)="toggleMenu()">
+              <ion-icon name="person" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- contenido principal -->
+  <ion-content class="ion-padding"> <!-- esta clase de ionic agrega padding al contenido-->
+
+    <ion-card class="hero-card gradient-bg"> <!-- clase personalizada para el fondo degradado -->
+      <ion-card-content>
+        <ion-grid>
+          <ion-row class="ion-align-items-center"> <!-- alinea verticalmente al centro -->
+            <ion-col size="12" size-md="6">
+              <h2 class="hero-title">Sin Fronteras para Comprar</h2> <!-- clase personalizada para el título -->
+              <p>Importa productos de EE.UU., Europa y más con nuestro servicio todo incluido. Te mostramos el precio final con impuestos y envío.</p>
+              <ion-button id="btn-inicio" href="#calcu">Ver cómo funciona</ion-button>
+            </ion-col>
+            <ion-col size="12" size-md="6" class="ion-text-center">
+              <img src="https://cdn-icons-png.flaticon.com/512/3652/3652191.png" alt="Global shopping" class="hero-img" />
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- calculadora costos -->
+    <ion-card id="calcu">
+      <ion-card-header>
+        <ion-card-title>Simulador de costos de importación</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" size-md="4">
+              <ion-label>Valor del producto (USD)</ion-label>
+              <ion-input type="number" [(ngModel)]="simValue" placeholder="100.00"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-md="4">
+              <ion-label>País de origen</ion-label>
+              <ion-select [(ngModel)]="simCountry">
+                <ion-select-option value="us">Estados Unidos</ion-select-option>
+                <ion-select-option value="eu">Unión Europea</ion-select-option>
+                <ion-select-option value="cn">China</ion-select-option>
+                <ion-select-option value="br">Brasil</ion-select-option>
+              </ion-select>
+            </ion-col>
+            <ion-col size="12" size-md="4">
+              <ion-label>Categoría</ion-label>
+              <ion-select [(ngModel)]="simCategory">
+                <ion-select-option value="tech">Tecnología</ion-select-option>
+                <ion-select-option value="fashion">Moda</ion-select-option>
+                <ion-select-option value="food">Alimentos</ion-select-option>
+                <ion-select-option value="home">Hogar</ion-select-option>
+              </ion-select>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-button expand="block" (click)="calcularCosto()">Calcular costo final</ion-button>
+        <ion-card *ngIf="showResult" class="ion-margin-top">
+          <ion-card-content>
+            <h4>Resumen de costos</h4>
+            <ion-list>
+              <ion-item>Producto: <ion-label class="ion-text-end">${{simValue}} USD</ion-label></ion-item> <!-- ion-text-end alinea a la derecha -->
+              <ion-item>Envío internacional: <ion-label class="ion-text-end">$25.00 USD</ion-label></ion-item>
+              <ion-item>Impuestos (50%): <ion-label class="ion-text-end">${{simValue*0.5}} USD</ion-label></ion-item>
+              <ion-item class="ion-text-bold">Total: <ion-label class="ion-text-end ion-text-bold">${{simValue+25+simValue*0.5}} USD</ion-label></ion-item>
+              <ion-item>Equivalente en ARS: <ion-label class="ion-text-end">${{(simValue+25+simValue*0.5)*1000 | number:'1.0-0'}} ARS</ion-label></ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- categorías -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Categorías populares</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6" size-md="3" *ngFor="let category of categories">
+              <ion-card class="category-card" (click)="goToCategory(category)"> <!-- agregar evento click -->
+                <ion-card-content>
+                  <div class="category-icon"> <!-- contenedor para el icono de cada categoría-->
+                    <ion-icon [name]="category.icon"></ion-icon>
+                  </div>
+                  <span id="catdest">{{ category.name }}</span>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- productos destacados (20) -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Productos destacados</ion-card-title>
+        <ion-buttons slot="end">
+          <ion-button fill="outline">Más recientes</ion-button>
+          <ion-button fill="outline">Mejor valorados</ion-button>
+          <ion-button fill="outline">Menor precio</ion-button>
+        </ion-buttons>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="3" *ngFor="let producto of productoBuscado">
+              <ion-card class="product-card"> <!-- clase personalizada para las tarjetas de productos -->
+                <div class="relative"> <!-- contenedor relativo para posicionar badges y botones -->
+                  <ion-img [src]="producto.imagen"></ion-img>
+                  <span *ngIf="producto.envioGratis" class="badge-free">Envío gratis</span>  <!-- arreglar-->
+      <span *ngIf="producto.descuento" class="badge-offer">{{ producto.descuento }}% OFF</span> <!-- arreglar-->
+                   <ion-button fill="clear" class="favorite-btn" (click)="toggleFavorite(producto)"> <!--arreglar-->
+                <ion-icon 
+                  [name]="producto.isFavorite ? 'heart-outline' : 'heart-outline'" 
+                  [style.color]="producto.isFavorite ? 'red' : '#666'"></ion-icon>
+                  </ion-button>
+                </div>
+                <ion-card-content>
+                  <div class="flag-container"> 
+                    <span class="flag-icon" [ngClass]="producto.flag"></span> 
+                    <span>{{ producto.pais }}</span>
+                  </div>
+                  <ion-card-title>{{ producto.nombre }}</ion-card-title>
+                  <ion-row>
+                    <ion-col>
+                      <ion-icon name="star-half-outline" color="warning"></ion-icon>
+                      <ion-icon name="star-half-outline" color="warning"></ion-icon>
+                      <ion-icon name="star-half-outline" color="warning"></ion-icon>
+                      <ion-icon name="star-half-outline" color="warning"></ion-icon>
+                      <ion-icon name="star-half-outline" color="warning"></ion-icon>
+                      <span>({{ producto.reviews || 0 }})</span>
+                    </ion-col>
+                  </ion-row>
+                  <p class="price">{{ producto.precioUSD }} USD</p>
+                  <p class="ars-price">${{ producto.precioARS }} ARS (Impuestos incluidos)</p>
+                  <ion-button id="agregated" expand="block" (click)="addToCart(producto)">
+                    <ion-icon name="cart" slot="start"></ion-icon> Agregar   <!--arreglar-->
+                  </ion-button>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-button expand="block" fill="outline" (click)="loadMore()">Ver más productos</ion-button> <!--hacerlo funcional-->
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
