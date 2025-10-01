@@ -1,37 +1,36 @@
 
 <!-- home content, sin <ion-app> para que funcione con TabsPage -->
   <!-- header -->
-  <ion-header>
-    <ion-toolbar>
-      <ion-grid>
-        <ion-row class="ion-align-items-center">
-          <ion-col size="2">
-              <div class="logo-container" style="display: flex; align-items: center;">
-                <img src="assets/icon/no-words-gb.png" alt="GlobalBox Logo" style="height: 120px; width: 120px; margin-right: 12px;" />
-                <span style="color: white; font-size: 2rem; font-weight: 700;">GlobalBox</span>
-              </div>
-          </ion-col>
-          <ion-col size="6">
-            <title>GlobalBox</title>
-            <ion-searchbar placeholder="Buscar productos..." animated (ionInput)="buscarProducto($event)"></ion-searchbar>
-          </ion-col>
-          <ion-col size="4" class="ion-text-right"> <!-- esta clase de ionic alinea a la derecha -->
-              <ion-button fill="clear" (click)="toggleFavorite(productos)">
-              <ion-icon name="heart-outline" slot="icon-only" style="font-size: 2.2rem;"></ion-icon>
-              <ion-badge color="danger">{{ favoriteCount }}</ion-badge> <!-- agregar contador de favoritos -->
-            </ion-button>
-            <ion-button fill="clear" (click)="toggleCart()">
-              <ion-icon name="cart-outline" slot="icon-only" style="font-size: 3rem;"></ion-icon>
-              <ion-badge color="success">{{ cartCount }}</ion-badge>
-            </ion-button>
-            <ion-button fill="clear" (click)="toggleMenu()">
-              <ion-icon name="person" slot="icon-only"></ion-icon>
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-toolbar>
-  </ion-header>
+ <ion-header>
+  <ion-toolbar class="main-header-toolbar">
+    
+    <ion-buttons slot="start">
+        <div class="header-logo-container">
+            <ion-img src="assets/icon/no-words-gb.png" alt="GlobalBox Logo"></ion-img>
+            <span>GlobalBox</span>
+        </div>
+    </ion-buttons>
+
+    <ion-searchbar 
+      slot="primary" 
+      placeholder="Buscar productos..." 
+      animated 
+      (ionInput)="buscarProducto($event)">
+    </ion-searchbar>
+
+    <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="toggleFavorite(productos)" class="header-action-btn">
+            <ion-icon name="heart-outline"></ion-icon>
+            <ion-badge color="danger">{{ favoriteCount }}</ion-badge>
+        </ion-button>
+        <ion-button fill="clear" (click)="toggleCart()" class="header-action-btn">
+            <ion-icon name="cart-outline"></ion-icon>
+            <ion-badge color="success">{{ cartCount }}</ion-badge>
+        </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
 
   <ion-content class="ion-padding"> <!-- esta clase de ionic agrega padding al contenido-->
 

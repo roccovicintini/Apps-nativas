@@ -2,18 +2,13 @@
 .main-header {
 	background: #083a73;
 	color: #fff;
+	
 }
 .logo-container {
 	position: relative;
 	display: flex;
 	align-items: center;
 }
-#btn-inicio {
-	background-color: orange !important;
-	color: #fff;
-	margin-top: 12px;
-}
-
 
 .gradient-bg {
 	background: linear-gradient(135deg, #003366 0%, orange 100%);
@@ -53,20 +48,7 @@
 .product-card .relative {
 	position: relative;
 }
-#catdest {
-	color: black;
-}
-.favorite-btn {
-	position: absolute;
-	top: 10px;
-	right: 1px;
-	z-index: 20; // el botón esté por encima de otros elementos, arreglar
-	background: #fff;
-	border-radius: 50%;
-	box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-	height: 5px;
-	width: 30px;
-}
+
 .badge-free {
   position: absolute;
   top: 10px;
@@ -143,9 +125,7 @@ ion-card-title {
 	margin-top: 8px;
 	width: 100%;
 }
-.product-card ion-button[expand="block"]:hover {
-	background: #219150;
-}
+
 .category-card {
 	background-color: #fff !important;
 	border-radius: 14px;
@@ -169,32 +149,6 @@ ion-card-title {
 	font-weight: 500;
 }
 
-.flag-container {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	margin-bottom: 4px;
-}
-
-.price {
-	font-size: 1.3rem;
-	font-weight: 600;
-	color: #009688;
-	margin-bottom: 2px;
-}
-.ars-price {
-	font-size: 0.95rem;
-	color: #888;
-	margin-bottom: 8px;
-}
-
-ion-card-title {
-	font-size: 1.1rem;
-	font-weight: 500;
-	margin-bottom: 2px;
-	color: black;
-}
-
 .product-card ion-button[expand="block"] {
 	background: #27ae60;
 	color: #fff;
@@ -202,10 +156,6 @@ ion-card-title {
 	border-radius: 8px;
 	margin-top: 8px;
 	width: 100%;
-}
-
-.product-card ion-button[expand="block"]:hover {
-	background: #219150;
 }
 
 .product-card ion-button[fill="clear"] {
@@ -239,32 +189,10 @@ ion-card-title {
 	padding: 2px 8px;
 }
 
-.category-card {
-	background: #fff;
-	border-radius: 14px;
-	box-shadow: 0 1px 6px rgba(0,0,0,0.05);
-	padding: 18px 0 10px 0;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	min-width: 180px;
-	max-width: 220px;
-	margin: 0 auto;
-}
-.category-icon ion-icon {
-	font-size: 2.2rem;
-	color: #009688;
-	margin-bottom: 6px;
-}
 .category-card span {
 	font-size: 1rem;
 	color: whitesmoke;
 	font-weight: 500;
-}
-.hero-img img {
-	width: 180px;
-	height: 180px;
-	object-fit: contain;
 }
 
 // simulador
@@ -334,7 +262,7 @@ ion-card-title {
 	font-size: 2rem;
 }
 
-// PRODUCTOS DESTACADOS
+// productos detacados
 .products-section {
 	margin-bottom: 32px;
 }
@@ -352,8 +280,8 @@ ion-card-title {
 .products-filters ion-button {
 	margin-right: 8px;
 	--background: #fff;
-	--color: #083a73;
-	--border-color: #083a73;
+	--color: #003366;
+	--border-color: #003366;
 }
 .product-card {
 	background: #fff !important;
@@ -392,39 +320,7 @@ ion-card-title {
 	height: 120px;
 	object-fit: contain;
 }
-.favorite-btn {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	background: #fff;
-	border-radius: 50%;
-	box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-	padding: 6px;
-	border: none;
-	cursor: pointer;
-}
-.envio-gratis {
-	position: absolute;
-	top: 10px;
-	left: 10px;
-	background: #00b894;
-	color: #fff;
-	font-size: 0.8rem;
-	padding: 2px 8px;
-	border-radius: 6px;
-	font-weight: 600;
-}
-.descuento {
-	position: absolute;
-	top: 36px;
-	left: 10px;
-	background: #ff7f00;
-	color: #fff;
-	font-size: 0.8rem;
-	padding: 2px 8px;
-	border-radius: 6px;
-	font-weight: 600;
-}
+
 .product-info {
 	padding: 16px 14px 18px 14px;
 	display: flex;
@@ -444,10 +340,7 @@ ion-card-title {
 	border-radius: 2px;
 	margin-right: 8px;
 }
-.us-flag { background-image: url('https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3/us.svg'); }
-.eu-flag { background-image: url('https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3/eu.svg'); }
-.cn-flag { background-image: url('https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3/cn.svg'); }
-.br-flag { background-image: url('https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3/br.svg'); }
+
 .country-name {
 	font-size: 0.95rem;
 	color: black;
@@ -498,15 +391,35 @@ ion-img {
 .products-more {
 	margin-top: 24px;
 }
-// HEADER
+// header
 ion-header {
-	--background: #083a73; 
+	--background: #003366; 
 	color: #fff;
+	border-bottom-left-radius: 24px;
+	border-bottom-right-radius: 24px;
 
-	ion-toolbar {
-		--background: #083a73;
+	ion-toolbar.main-header-toolbar {
+		--background: #003366;
 		--border-color: transparent;
+		padding: 0 8px;
+		color: white;
 
+		.header-logo-container {
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+		}
+
+		ion-img {
+                width: 36px; 
+                height: 36px;
+                margin-right: 8px;
+            }
+            span {
+                font-weight: 700;
+                font-size: 1.1rem; 
+                white-space: nowrap; 
+            }
 		.logo {
 			display: flex;
 			align-items: center;
@@ -532,14 +445,31 @@ ion-searchbar {
 	--background: #fff;
 	--color: black;
 	--placeholder-color: #999;
-	--icon-color: #083a73;
+	--icon-color: #003366;
 	border-radius: 8px;
-	margin: 12px;
-	font-size: 0.95rem;
-	left: 100px;
+    padding: 0; 
+    margin: 0 8px;
+    min-width: 100px;
+        
 }
 
+.header-action-btn {
+            --padding-start: 4px; 
+            --padding-end: 4px;
+            color: #fff; 
+            
+            ion-icon {
+                font-size: 1.6rem; 
+            }
 
+            ion-badge { 
+                position: absolute;
+                top: -4px;
+                right: -4px; 
+                font-size: 0.7rem;
+                padding: 2px 6px; 
+            }
+		}
 .slogan {
 	text-align: center;
 	font-weight: bold;
@@ -560,10 +490,11 @@ ion-searchbar {
 	}
 
 	ion-card {
-		border-radius: 12px;
-		box-shadow: 0px 2px 6px rgba(0,0,0,0.08);
-		overflow: hidden;
-		text-align: center;
+    background: #fff; 
+    margin: 16px; 
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
 
 		img {
 			width: 100%;
@@ -607,37 +538,10 @@ ion-searchbar {
 	}
 }
 
-
-// FOOTER NAVIGATION
-
-ion-footer {
-	ion-toolbar {
-		--background: #083a73;
-		display: flex;
-		justify-content: space-around;
-		color: #fff;
-
-		ion-button {
-			color: #fff;
-			--color-activated: #00b894;
-			font-size: 1.3rem;
-		}
-	}
-}
 ion-content {
-	--background: #fff;
-	padding: 0 0 16px 0;
+    --background: #f8f8f8; 
 }
 
-.header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	background: #073b63;
-	padding: 24px 16px 12px 16px;
-	border-bottom-left-radius: 24px;
-	border-bottom-right-radius: 24px;
-}
 .logo {
 	height: 48px;
 }

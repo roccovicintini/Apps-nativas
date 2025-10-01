@@ -83,6 +83,7 @@ export class ProductosService {
       imagen: 'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRn5THkEZ0WHoe1I_c_2khG9rfcWHxeM3DGrW1Oor4KvBRnQmdZfCpqNAMkBBkR9BQSTgwIZ7xf6AU-fh0du5p14pV6bPfE1Ztx_PIbLNV2FIRC2Oj0sCkYdaQKbITvEMuzvADsSNE&usqp=CAc',
       pais: 'USA',
       categoria: 'moda',
+      reviews: 90,
     },
     {
       id: 7,
