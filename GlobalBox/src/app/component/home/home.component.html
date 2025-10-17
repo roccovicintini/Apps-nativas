@@ -1,4 +1,3 @@
-
 <!-- home content, sin <ion-app> para que funcione con TabsPage -->
   <!-- header -->
  <ion-header>
@@ -19,7 +18,7 @@
     </ion-searchbar>
 
     <ion-buttons slot="end">
-        <ion-button fill="clear" (click)="toggleFavorite(productos)" class="header-action-btn">
+    <ion-button fill="clear" class="header-action-btn">
             <ion-icon name="heart-outline"></ion-icon>
             <ion-badge color="danger">{{ favoriteCount }}</ion-badge>
         </ion-button>
@@ -114,7 +113,7 @@
                     <ion-icon [name]="category.icon"></ion-icon>
                   </div>
                   <span id="catdest">{{ category.name }}</span>
-                </ion-card-content>
+                </ion-card-content> <!-- pegar coso de carme, crear o reusar servicio, crear componente que llame a ese servicio-->
               </ion-card>
             </ion-col>
           </ion-row>
@@ -122,25 +121,22 @@
       </ion-card-content>
     </ion-card>
 
-    <!-- productos destacados (20) -->
+    <!-- productos destacados (20) del id 5 al 24-->
     <ion-card>
       <ion-card-header>
         <ion-card-title>Productos destacados</ion-card-title>
-        <ion-buttons slot="end">
-          <ion-button fill="outline">Más recientes</ion-button>
-          <ion-button fill="outline">Mejor valorados</ion-button>
-          <ion-button fill="outline">Menor precio</ion-button>
-        </ion-buttons>
       </ion-card-header>
       <ion-card-content>
         <ion-grid>
           <ion-row>
-            <ion-col size="12" size-md="6" size-lg="3" *ngFor="let producto of productoBuscado">
+            <ion-col size="12" size-md="6" size-lg="3" *ngFor="let producto of productoBuscado"> <!-- revisar q esto no sea el problema -->
               <ion-card class="product-card"> <!-- clase personalizada para las tarjetas de productos -->
                 <div class="relative"> <!-- contenedor relativo para posicionar badges y botones -->
-                  <ion-img [src]="producto.imagen"></ion-img>
-                  <span *ngIf="producto.envioGratis" class="badge-free">Envío gratis</span>  <!-- arreglar-->
-      <span *ngIf="producto.descuento" class="badge-offer">{{ producto.descuento }}% OFF</span> <!-- arreglar-->
+                  <ion-img [src]="producto.imagen" class="product-img"></ion-img>
+
+                  <span *ngIf="producto.envio_gratis" class="badge-free">Envío gratis</span>
+
+                  <span *ngIf="producto.descuento" class="badge-offer">{{ producto.descuento }}% OFF</span>
                    <ion-button fill="clear" class="favorite-btn" (click)="toggleFavorite(producto)">
                     <ion-icon 
                          [name]="producto.isFavorite ? 'heart-outline' : 'heart-outline'" 
@@ -150,8 +146,9 @@
                 </div>
                 <ion-card-content>
                   <div class="flag-container"> 
-                    <span class="flag-icon" [ngClass]="producto.flag"></span>  <!-- la bandera no aparece, arreglar -->
-                    <span>{{ producto.pais }}</span>
+
+                    <span class="flag-icon" [ngClass]="'flag-' + (producto.flag || 'us')"></span>
+                    <span>{{ producto.pais || 'EE.UU.' }}</span>
                   </div>
                   <ion-card-title>{{ producto.nombre }}</ion-card-title>
                   <ion-row>
@@ -164,10 +161,12 @@
                       <span>({{ producto.reviews || 0 }})</span>
                     </ion-col>
                   </ion-row>
-                  <p class="price">{{ producto.precioUSD }} USD</p>
-                  <p class="ars-price">${{ producto.precioARS }} ARS (Impuestos incluidos)</p>
+
+                  <p class="price">{{ producto.precio_usd }} USD</p>
+
+                  <p class="ars-price">${{ producto.precio_ars }} ARS (Impuestos incluidos)</p>
                   <ion-button id="agregated" expand="block" (click)="addToCart(producto)">
-                    <ion-icon src="assets/icon/cart-outline.svg" slot="start"></ion-icon> Agregar   <!--arreglar-->
+                    <ion-icon name="cart-outline" slot="start"></ion-icon> Agregar
                   </ion-button>
                 </ion-card-content>
               </ion-card>

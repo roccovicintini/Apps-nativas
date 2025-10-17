@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TrackingService, OrderTrackingInfo } from '../../../services/tracking.service';
 import { IonicModule } from '@ionic/angular';
 import { arrowForwardOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
@@ -16,9 +17,13 @@ addIcons({ arrowForwardOutline });
 })
 export class RastreoComponent  implements OnInit {
 
-  constructor() { }
+  orderInfo: OrderTrackingInfo | null = null;
 
-  ngOnInit() {}
+  constructor(private trackingService: TrackingService) { }
+
+  ngOnInit() {
+    this.orderInfo = this.trackingService.lastOrder;
+  }
 
   codigo: string = '';
   estado: string = '';

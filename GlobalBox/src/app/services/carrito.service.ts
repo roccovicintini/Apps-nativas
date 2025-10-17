@@ -17,7 +17,9 @@ export class CarritoService {
 
   addProducto(producto: Producto) {
     const carrito = [...this.carritoSubject.value];
-    const idx = carrito.findIndex(item => item.id === producto.id);
+    const idx = carrito.findIndex(item => 
+      item.id_productos === producto.id_productos
+    );
     if (idx > -1) {
       carrito[idx].cantidad++;
     } else {
@@ -27,13 +29,15 @@ export class CarritoService {
   }
 
   removeProducto(id: number) {
-    const carrito = this.carritoSubject.value.filter(item => item.id !== id);
+    const carrito = this.carritoSubject.value.filter(item => 
+      item.id_productos !== id
+    );
     this.carritoSubject.next(carrito);
   }
 
   updateCantidad(id: number, cantidad: number) {
     const carrito = this.carritoSubject.value.map(item =>
-      item.id === id ? { ...item, cantidad } : item
+      item.id_productos === id ? { ...item, cantidad } : item
     );
     this.carritoSubject.next(carrito);
   }
@@ -41,9 +45,9 @@ export class CarritoService {
   clear() {
     this.carritoSubject.next([]);
   }
+  
   clearCarrito() {
     this.carritoSubject.next([]);
   }
 }
-
   

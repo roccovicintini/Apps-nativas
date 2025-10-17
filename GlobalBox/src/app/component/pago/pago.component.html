@@ -16,14 +16,41 @@
     <ion-card-content>
       <ion-list>
         <ion-item *ngFor="let item of cartItems">
-          {{ item.nombre }} - ${{ item.precioUSD }} USD x {{ item.cantidad }}
+          {{ item.nombre }} - ${{ item.precioUSD ?? item.precio_usd }} USD x {{ item.cantidad }}
         </ion-item>
         <ion-item>
           <ion-label>Total: </ion-label>
           <ion-label slot="end">${{ cartTotal }} USD</ion-label>
         </ion-item>
       </ion-list>
-      <ion-button expand="block" (click)="onPay()">Confirmar Pago</ion-button>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Método de Pago</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-radio-group [(ngModel)]="selectedPaymentMethod">
+            <ion-item>
+              <ion-label>Tarjeta</ion-label>
+              <ion-radio slot="start" value="Tarjeta"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Mercado Pago</ion-label>
+              <ion-radio slot="start" value="Mercado Pago"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Transferencia Bancaria</ion-label>
+              <ion-radio slot="start" value="Transferencia Bancaria"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>PayPal</ion-label>
+              <ion-radio slot="start" value="PayPal"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-button expand="block" (click)="onPay()" [disabled]="!selectedPaymentMethod">Confirmar Pago</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>
