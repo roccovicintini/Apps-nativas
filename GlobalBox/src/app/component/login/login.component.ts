@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class LoginComponent  implements OnInit {
   email: string = '';
   contrasena: string = ''; // escribir contraseña causa un error
-  recuerdame: boolean = false; // no se usa todavía, agregar más tarde
+  recuerdame: boolean = false;
   usuario: string = '';
   mensajeError: string = '';
 

@@ -22,7 +22,6 @@ export interface Producto {
   fecha_creacion?: string;
   activo?: boolean;
   
-  // Campos adicionales para compatibilidad frontend
   isFavorite?: boolean;
   pais?: string;
   categoria?: string;
@@ -157,146 +156,146 @@ export class ProductosService {
       isFavorite: false,
     },
     {
-      id_productos: 7,
-      nombre: 'Smartphone Goole Pixel',
-      precio_usd: 500,
-      precio_ars: 650000,
-      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpMoBWbxz6GheNyIaI7MDVgD3FxZ1tEEKZzw&s',
-      id_pais: 1, 
-      id_categoria: 1, 
-      envio_gratis: false, 
-      descuento: 0, 
-      reviews: 300,
-      stock: 12, 
-      pais: 'USA',
-      categoria: 'tecnologia',  
-      isFavorite: false,
-    },
-    {
-      id_productos: 8,
-      nombre: 'SmartWatch Samsung',
-      precio_usd: 200,
-      precio_ars: 260000, 
-      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZdwcqiKRLb_q5ENAneE8wXm495y5MT0635Q&s',
-      id_pais: 1, 
-      id_categoria: 1, 
-      envio_gratis: false, 
-      descuento: 5,
-      reviews: 180,
-      stock: 20,
-      pais: 'USA',
-      categoria: 'tecnologia',
-      isFavorite: false,
-    },
-    {
-      id_productos: 9,
-      nombre: 'Polo Verde',
-      precio_usd: 10,
-      precio_ars: 12000,
-      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTvxmH3JHtIiSsM_5aIziCJ0USLjR29p2ZYtSsnxZgTRVpozOhC2l4xCqYvfZvoB6inxI&usqp=CAU',
-      id_pais: 1, 
-      id_categoria: 2, // Añadido
-      envio_gratis: false, // Añadido
-      descuento: 0, // Añadido
-      reviews: 75,
-      stock: 40, // Añadido
-      pais: 'USA',
-      categoria: 'moda',
-      isFavorite: false,
-    }, 
-    {
-      id_productos: 10,
-      nombre: 'Perfume Hugo Boss',
-      precio_usd: 150,
-      precio_ars: 180000, // Corregido 'precioARS' a 'precio_ars'
-      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGWRi0N8fYCuIe4nggkaovz3qx6ZnNGMTUtA&s',
-      id_pais: 1, // Añadido
-      id_categoria: 2, // Añadido
-      envio_gratis: true, // Añadido
-      descuento: 0, // Añadido
-      reviews: 80,
-      stock: 18, // Añadido
-      pais: 'USA',
-      categoria: 'moda',
-      isFavorite: false,
-    },
-    {
-      id_productos: 11,
-      nombre: 'Tablet Samsung',
-      precio_usd: 300,
-      precio_ars: 390000, // Corregido 'precioARS' a 'precio_ars'
-      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJJ_TPkBkC1s-6KAg1_Z5JyWRuyTz3PUNu_Q&s',
-      id_pais: 1, // Añadido
-      id_categoria: 1, // Añadido
-      envio_gratis: true, // Añadido
-      descuento: 0, // Añadido
-      reviews: 110,
-      stock: 14, // Añadido
-      pais: 'USA',
-      categoria: 'tecnologia',
-      isFavorite: false,
-    },
-    {
-      id_productos: 12,
-      nombre: 'Campera de Cuero',
-      precio_usd: 250,
-      precio_ars: 320000, // Corregido 'precioARS' a 'precio_ars'
-      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6VCwAfHvXoI8MYat0t2-ulErVR6mXlMCrSA&s',
-      id_pais: 1, // Añadido
-      id_categoria: 2, // Añadido
-      envio_gratis: false, // Añadido
-      descuento: 20, // Añadido
-      reviews: 130,
-      stock: 8, // Añadido
-      pais: 'USA',
-      categoria: 'moda',
-      isFavorite: false,
-    },
-    {
-      id_productos: 13,
-      nombre: 'Anteojos de Sol Ray-Ban',
-      precio_usd: 180,
-      precio_ars: 230000, // Corregido 'precioARS' a 'precio_ars'
-      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGVUAHxbCizxIw7F0zaNjJRGcmSjYtYV9HSQ&s',
-      id_pais: 1, // Añadido
-      id_categoria: 2, // Añadido
-      envio_gratis: false, // Añadido
-      descuento: 0, // Añadido
-      reviews: 90,
-      stock: 22, // Añadido
-      pais: 'USA',
-      categoria: 'moda',
-      isFavorite: false,
-    },
-    {
-      id_productos: 14,
-      nombre: 'Freidora de Aire',
-      precio_usd: 130,
-      precio_ars: 170000, // Corregido 'precioARS' a 'precio_ars'
-      imagen: 'https://imagenes.elpais.com/resizer/v2/2Y5SABIBCFD7BJZOQLNYWDHAWE.png?auth=d2ce54e017e2ed522137be500c2d8361dd0dd411c1338693ceb5559264c20951&width=1960',
-      id_pais: 1, // Añadido
-      id_categoria: 4, // Añadido (asumiendo 4 es hogar)
-      envio_gratis: true, // Añadido
-      descuento: 0, // Añadido
-      reviews: 140,
-      stock: 16, // Añadido
-      pais: 'USA',
-      categoria: 'hogar',
-      isFavorite: false,
-    },
-    {
-      id_productos: 15,
-      nombre: 'Batidora',
-      precio_usd: 80,
-      precio_ars: 100000, 
-      imagen: 'https://m.media-amazon.com/images/I/61695++cy8L.jpg',
-      id_pais: 1,
-      id_categoria: 4, 
-      envio_gratis: false,
-      descuento: 0,
-      reviews: 60,
+      id_productos: 7,
+      nombre: 'Smartphone Google Pixel',
+      precio_usd: 500,
+      precio_ars: 650000,
+      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpMoBWbxz6GheNyIaI7MDVgD3FxZ1tEEKZzw&s',
+      id_pais: 1, 
+      id_categoria: 1, 
+      envio_gratis: false, 
+      descuento: 0, 
+      reviews: 300,
+      stock: 12, 
+      pais: 'USA',
+      categoria: 'tecnologia', 
+      isFavorite: false,
+ },
+  {
+      id_productos: 8,
+      nombre: 'SmartWatch Samsung',
+      precio_usd: 200,
+      precio_ars: 260000, 
+      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZdwcqiKRLb_q5ENAneE8wXm495y5MT0635Q&s',
+      id_pais: 1, 
+      id_categoria: 1, 
+      envio_gratis: false, 
+      descuento: 5,
+      reviews: 180,
       stock: 20,
+      pais: 'USA',
+      categoria: 'tecnologia',
+      isFavorite: false,
+  },
+  {
+      id_productos: 9,
+      nombre: 'Polo Verde',
+      precio_usd: 10,
+      precio_ars: 12000,
+      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTvxmH3JHtIiSsM_5aIziCJ0USLjR29p2ZYtSsnxZgTRVpozOhC2l4xCqYvfZvoB6inxI&usqp=CAU',
+      id_pais: 1, 
+      id_categoria: 2,
+      envio_gratis: false, 
+      descuento: 0,
+      reviews: 75,
+      stock: 40,
+      pais: 'USA',
+      categoria: 'moda',
+      isFavorite: false,
+  }, 
+  {
+      id_productos: 10,
+      nombre: 'Perfume Hugo Boss',
+      precio_usd: 150,
+      precio_ars: 180000,
+      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGWRi0N8fYCuIe4nggkaovz3qx6ZnNGMTUtA&s',
+      id_pais: 1,
+      id_categoria: 2,
+      envio_gratis: true,
+      descuento: 0,
+      reviews: 80,
+      stock: 18,
+      pais: 'USA',
+      categoria: 'moda',
+      isFavorite: false,
+},
+{
+      id_productos: 11,
+      nombre: 'Tablet Samsung',
+      precio_usd: 300,
+      precio_ars: 390000,
+      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJJ_TPkBkC1s-6KAg1_Z5JyWRuyTz3PUNu_Q&s',
+      id_pais: 1,
+      id_categoria: 1,
+      envio_gratis: true, 
+      descuento: 0, 
+      reviews: 110,
+      stock: 14, 
+      pais: 'USA',
+      categoria: 'tecnologia',
+      isFavorite: false,
+},
+{
+      id_productos: 12,
+      nombre: 'Campera de Cuero',
+      precio_usd: 250,
+      precio_ars: 320000, 
+      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6VCwAfHvXoI8MYat0t2-ulErVR6mXlMCrSA&s',
+      id_pais: 1, 
+      id_categoria: 2, 
+      envio_gratis: false, 
+      descuento: 20,
+      reviews: 130,
+      stock: 8, 
+      pais: 'USA',
+      categoria: 'moda',
+      isFavorite: false,
+},
+ {
+      id_productos: 13,
+      nombre: 'Anteojos de Sol Ray-Ban',
+      precio_usd: 180,
+      precio_ars: 230000, 
+      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGVUAHxbCizxIw7F0zaNjJRGcmSjYtYV9HSQ&s',
+      id_pais: 1,
+      id_categoria: 2, 
+      envio_gratis: false,
+      descuento: 0,
+      reviews: 90,
+      stock: 22,
       pais: 'USA',
+      categoria: 'moda',
+      isFavorite: false,
+},
+    {
+      id_productos: 14,
+      nombre: 'Freidora de Aire',
+      precio_usd: 130,
+      precio_ars: 170000,
+      imagen: 'https://imagenes.elpais.com/resizer/v2/2Y5SABIBCFD7BJZOQLNYWDHAWE.png?auth=d2ce54e017e2ed522137be500c2d8361dd0dd411c1338693ceb5559264c20951&width=1960',
+      id_pais: 1,
+      id_categoria: 4,
+      envio_gratis: true, 
+      descuento: 0,
+      reviews: 140,
+      stock: 16,
+      pais: 'USA',
+      categoria: 'hogar',
+      isFavorite: false,
+  },
+    {
+      id_productos: 15,
+      nombre: 'Batidora',
+      precio_usd: 80,
+      precio_ars: 100000, 
+      imagen: 'https://m.media-amazon.com/images/I/61695++cy8L.jpg',
+      id_pais: 1,
+      id_categoria: 4, 
+      envio_gratis: false,
+      descuento: 0,
+      reviews: 60,
+      stock: 20,
+      pais: 'USA',
       categoria: 'hogar',
       isFavorite: false,
   },

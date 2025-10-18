@@ -37,4 +37,18 @@
     </ion-card-content>
   </ion-card>
 
+
+<!-- Estado del último pedido realizado -->
+
+  <ion-card *ngIf="orderInfo">
+    <ion-card-header>
+      <ion-card-title>Estado de tu último pedido</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Estado del Pedido:</strong> {{ orderInfo.status }}</p>
+      <p><strong>ID de Rastreo:</strong> {{ orderInfo.trackingId }}</p>
+      <p><strong>Fecha de Compra:</strong> {{ orderInfo.orderDate }}</p>
+      <p><strong>Fecha Estimada de Llegada:</strong> {{ orderInfo.estimatedDate }}</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

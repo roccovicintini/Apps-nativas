@@ -1,4 +1,3 @@
-// server.js
 
 // importamos express
 const express = require('express');
@@ -10,7 +9,7 @@ const client = new Client({
  user: 'postgres', 
  host: 'db.gehltasvljdhiptdtzre.supabase.co',
  database: 'postgres',
- password: 'supaB4se03!',
+ password: 'sup4B4se03!',
  port: 5432,
  ssl: {
      rejectUnauthorized: false
@@ -25,31 +24,28 @@ client.connect()
 const app = express();
 const PORT = 3000;
 
-// Configuración ESPECÍFICA de CORS para permitir la comunicación con Ionic/Angular
+// configuración de CORS para permitir la comunicación con Ionic/Angular
 const corsOptions = {
-    // Orígenes permitidos (puerto estándar de Ionic/Capacitor y Angular)
+    // orígenes permitidos (puerto estándar de Ionic/Capacitor y Angular)
     origin: ['http://localhost:8100', 'http://localhost:4200'], 
     // Métodos permitidos (para POST, PUT, DELETE, etc.)
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    // Permite que se envíen cookies/cabeceras de autorización
+
     credentials: true, 
     optionsSuccessStatus: 204
 };
 
-// Aplicamos CORS con la configuración específica
-app.use(cors(corsOptions)); // AHORA USA LA CONFIGURACIÓN ESPECÍFICA
-app.use(express.json()); // SEGUNDO: JSON parser
+// Aplicamos CORS como dijo el profe
+app.use(cors(corsOptions)); 
+app.use(express.json());
 
-// =========================================================
-// RUTAS DE LA API
-// =========================================================
 
 // definimos la primera ruta get
 app.get('/', (req, res) => {
   res.send('Hola desde el Backend Servidor Express funcionando');
 });
 
-// RUTA POST - CREAR PRODUCTO
+// ruta post para crear producto
 app.post('/api/productos', async (req, res) => {
   const { 
         nombre, 
@@ -86,7 +82,7 @@ app.post('/api/productos', async (req, res) => {
      }
 });
 
-// RUTA GET - OBTENER PRODUCTOS
+// ruta get para obtener todos los productos
 app.get('/api/productos', async (req, res) => {
      const query = 'SELECT * FROM productos ORDER BY id_productos ASC';
 
@@ -99,7 +95,7 @@ app.get('/api/productos', async (req, res) => {
      }
 });
 
-// RUTA PUT - ACTUALIZAR PRODUCTO
+// ruta put para actualizar producto
 app.put('/api/productos/:id', async (req, res) => {
      const id = req.params.id;
      const { 
@@ -142,7 +138,7 @@ app.put('/api/productos/:id', async (req, res) => {
         }
 });
 
-// RUTA DELETE - ELIMINAR PRODUCTO
+// ruta delete para eliminar producto
 app.delete('/api/productos/:id', async (req, res) => {
      const id = req.params.id;
      const query = 'DELETE FROM productos WHERE id_productos = $1';
@@ -160,7 +156,8 @@ app.delete('/api/productos/:id', async (req, res) => {
      }
 });
 
-// RUTA GET - OBTENER PRODUCTO POR ID
+// ruta get para obtener producto por id
+// revisar y usar para botón de + productos
 app.get('/api/productos/:id', async (req, res) => {
      const id = req.params.id;
      const query = 'SELECT * FROM productos WHERE id_productos = $1';
