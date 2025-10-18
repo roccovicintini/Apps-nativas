@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Su Cuenta</ion-title>
+  </ion-toolbar>
+  </ion-header>
+  
+  <ion-content class="ion-padding">
+    <!-- Login / Registro -->
+    <ng-container *ngIf="!isLoggedIn; else cuenta">
+      <ion-card *ngIf="!isRegistering; else registro">
+        <ion-card-header>
+          <ion-card-title>Iniciar Sesión</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-label position="stacked">Username</ion-label>
+            <ion-input [(ngModel)]="username"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Password</ion-label>
+            <ion-input type="password" [(ngModel)]="password"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Email</ion-label>
+            <ion-input type="email" [(ngModel)]="email"></ion-input>
+          </ion-item>
+          <ion-button expand="block" (click)="handleLogin()">Ingresar</ion-button>
+          <ion-button expand="block" fill="outline" (click)="showRegister()">Crear una cuenta</ion-button>
+        </ion-card-content>
+      </ion-card>
+  
+      <ng-template #registro>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Registro</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-label position="stacked">Username</ion-label>
+              <ion-input [(ngModel)]="username"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Password</ion-label>
+              <ion-input type="password" [(ngModel)]="password"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Email</ion-label>
+              <ion-input type="email" [(ngModel)]="email"></ion-input>
+            </ion-item>
+            <ion-button expand="block" (click)="handleRegister()">Registrarme</ion-button>
+            <ion-button expand="block" fill="outline" (click)="showLogin()">Volver a Ingresar</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ng-template>
+    </ng-container>
+  
+    <!-- Cuenta -->
+    <ng-template #cuenta>
+      <ion-list>
+        <ion-item button (click)="isEditingProfile = !isEditingProfile">
+          <ion-label>Perfil</ion-label>
+        </ion-item>
+        <div *ngIf="isEditingProfile" class="ion-padding">
+          <ion-item>
+            <ion-label position="stacked">Nombre</ion-label>
+            <ion-input [(ngModel)]="nombre"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Apellido</ion-label>
+            <ion-input [(ngModel)]="apellido"></ion-input>
+          </ion-item>
+          <ion-button expand="block" (click)="saveProfile()">Guardar Perfil</ion-button>
+        </div>
+  
+        <ion-item button (click)="isEditingAddress = !isEditingAddress">
+          <ion-label>Dirección</ion-label>
+        </ion-item>
+        <div *ngIf="isEditingAddress" class="ion-padding">
+          <ion-item>
+            <ion-label position="stacked">Calle</ion-label>
+            <ion-input [(ngModel)]="calle" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Altura</ion-label>
+            <ion-input [(ngModel)]="altura" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Provincia</ion-label>
+            <ion-input [(ngModel)]="provincia" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">País</ion-label>
+            <ion-input [(ngModel)]="pais" required></ion-input>
+          </ion-item>
+          <ion-button expand="block" (click)="saveAddress()" [disabled]="!calle || !altura || !provincia || !pais">Guardar Dirección</ion-button>
+        </div>
+  
+        <ion-item lines="none">
+          <ion-button color="medium" (click)="logout()">Cerrar Sesión</ion-button>
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </ion-content>
