@@ -48,7 +48,7 @@ export class PagoComponent  implements OnInit, OnDestroy {
 
   onPay() {
     if (!this.selectedPaymentMethod) return;
-    this.trackingService.saveOrder(this.selectedPaymentMethod);
+    this.trackingService.saveOrder(this.selectedPaymentMethod, this.cartItems, this.cartTotal);
     this.carritoService.clearCarrito();
     this.router.navigate(['/home']);
   }

@@ -23,8 +23,8 @@ export const tabsRoutes: Routes = [
         loadComponent: () => import('../component/rastreo/rastreo.component').then(m => m.RastreoComponent)
       },
       {
-        path: 'login',
-        loadComponent: () => import('../component/login/login.component').then(m => m.LoginComponent)
+        path: 'profile',
+        loadComponent: () => import('../pages/profile/profile.component').then(m => m.ProfileComponent)
       },
       {
         path: '',

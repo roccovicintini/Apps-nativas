@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { AuthService, UserData } from '../../services/auth.service';
+import { AuthService, AuthUser, Direccion, Cliente } from '../../services/auth.service';
 
 @Component({
   selector: 'app-perfil',
@@ -17,7 +17,7 @@ export class PerfilComponent {
   isEditingAddress = false;
 
   // Auth state
-  user: UserData | null = null;
+  user: AuthUser | null = null;
   username = '';
   password = '';
   email = '';
@@ -36,13 +36,21 @@ export class PerfilComponent {
     this.auth.currentUser$.subscribe(u => {
       this.user = u;
       if (u) {
-        this.nombre = u.nombre ?? '';
-        this.apellido = u.apellido ?? '';
-        this.calle = u.calle ?? '';
-        this.altura = u.altura ?? '';
-        this.provincia = u.provincia ?? '';
-        this.pais = u.pais ?? '';
+        this.loadAccountData(u);
       }
+    });
+  }
+
+  private loadAccountData(u: AuthUser) {
+    // Cargar datos básicos del cliente para prefijar campos del perfil
+    this.auth.getClienteByUsername(u.username).subscribe({
+      next: (cli: Cliente) => {
+        this.nombre = cli?.nombre ?? '';
+        this.apellido = cli?.apellido ?? '';
+      },
+      error: () => {
+        // Silenciar errores en este componente secundario
+      },
     });
   }
 
@@ -54,28 +62,47 @@ export class PerfilComponent {
   handleLogin() {
     if (!this.username || !this.password || !this.email) return;
     if (!this.email.includes('@')) return;
-    this.auth.login(this.username, this.password, this.email).subscribe();
+    this.auth.login(this.username, this.email, this.password).subscribe();
   }
 
   handleRegister() {
     if (!this.username || !this.password || !this.email) return;
     if (!this.email.includes('@')) return;
-    this.auth.register(this.username, this.password, this.email).subscribe(_ => {
-      this.auth.login(this.username, this.password, this.email).subscribe();
+    this.auth.register(this.username, this.email, this.password).subscribe(_ => {
+      this.auth.login(this.username, this.email, this.password).subscribe();
       this.isRegistering = false;
     });
   }
 
   saveProfile() {
     if (!this.user) return;
-    this.auth.updateProfile(this.user.id_usuario, this.nombre, this.apellido).subscribe(() => {
-      this.isEditingProfile = false;
+    // Buscar el cliente por username y luego actualizar nombre/apellido
+    this.auth.getClienteByUsername(this.user.username).subscribe({
+      next: (cli: Cliente) => {
+        if (!cli || !cli.id_cliente) return;
+        this.auth.updateCliente(cli.id_cliente, { nombre: this.nombre, apellido: this.apellido }).subscribe(() => {
+          this.isEditingProfile = false;
+        });
+      },
+      error: () => {
+        // sin acción
+      }
     });
   }
   saveAddress() {
     if (!this.user) return;
     if (!this.calle || !this.pais || !this.provincia || !this.altura) return;
-    this.auth.updateAddress(this.user.id_usuario, { calle: this.calle, altura: this.altura, provincia: this.provincia, pais: this.pais }).subscribe(() => {
+    const payload: Direccion = {
+      calle: this.calle,
+      altura: this.altura,
+      provincia: this.provincia,
+      pais: this.pais,
+      ciudad: null,
+      localidad: null,
+      piso: null,
+      codigo_postal: null,
+    };
+    this.auth.createDireccionForUsuario(this.user.id_usuario, payload).subscribe(() => {
       this.isEditingAddress = false;
     });
   }

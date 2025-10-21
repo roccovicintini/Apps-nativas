@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-// Interface que coincide con tu backend
+// coincide con tu backend
 export interface Producto {
   id_productos: number;
   nombre: string;
@@ -56,7 +56,7 @@ export class ProductosService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-
+// por si falla la api:
   private getProductosMock(): Producto[] {
     return [
       {
@@ -263,7 +263,7 @@ export class ProductosService {
       descuento: 0,
       reviews: 90,
       stock: 22,
-      pais: 'USA',
+      pais: 'USA',
       categoria: 'moda',
       isFavorite: false,
 },

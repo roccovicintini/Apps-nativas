@@ -25,6 +25,11 @@ export class RastreoComponent  implements OnInit {
     this.orderInfo = this.trackingService.lastOrder;
   }
 
+
+  ionViewWillEnter() {
+    this.orderInfo = this.trackingService.lastOrder;
+  }
+
   codigo: string = '';
   estado: string = '';
   ubicacion: string = '';

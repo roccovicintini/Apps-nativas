@@ -10,13 +10,6 @@
         </div>
     </ion-buttons>
 
-    <ion-searchbar 
-      slot="primary" 
-      placeholder="Buscar productos..." 
-      animated 
-      (ionInput)="buscarProducto($event)">
-    </ion-searchbar>
-
     <ion-buttons slot="end">
     <ion-button fill="clear" class="header-action-btn">
             <ion-icon name="heart-outline"></ion-icon>
@@ -32,6 +25,17 @@
 </ion-header>
 
   <ion-content class="ion-padding"> <!-- esta clase de ionic agrega padding al contenido-->
+
+    <!-- buscador destacado debajo del header, antes estaba en el header y molestaba un montón -->
+    <ion-card class="search-card">
+      <ion-card-content>
+        <ion-searchbar 
+          placeholder="Buscar productos..." 
+          animated 
+          (ionInput)="buscarProducto($event)">
+        </ion-searchbar>
+      </ion-card-content>
+    </ion-card>
 
     <ion-card class="hero-card gradient-bg"> <!-- clase personalizada para el fondo degradado -->
       <ion-card-content>
@@ -113,7 +117,7 @@
                     <ion-icon [name]="category.icon"></ion-icon>
                   </div>
                   <span id="catdest">{{ category.name }}</span>
-                </ion-card-content> <!-- pegar coso de carme, crear o reusar servicio, crear componente que llame a ese servicio-->
+                </ion-card-content> 
               </ion-card>
             </ion-col>
           </ion-row>
@@ -136,7 +140,7 @@
 
                   <span *ngIf="producto.envio_gratis" class="badge-free">Envío gratis</span>
 
-                  <span *ngIf="producto.descuento" class="badge-offer">{{ producto.descuento }}% OFF</span>
+                  <span *ngIf="+(producto.descuento ?? 0) > 0" class="badge-offer">{{ producto.descuento }}% OFF</span>
                    <ion-button fill="clear" class="favorite-btn" (click)="toggleFavorite(producto)">
                     <ion-icon 
                          [name]="producto.isFavorite ? 'heart-outline' : 'heart-outline'" 

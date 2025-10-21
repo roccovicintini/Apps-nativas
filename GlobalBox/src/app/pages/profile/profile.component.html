@@ -1,0 +1,280 @@
+<ion-header>
+  <ion-toolbar class="header-primary">
+    <ion-title>Su Cuenta</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button menu="profileMenu" autoHide="false"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="segment" *ngIf="!auth.isAuthenticated()">
+      <ion-segment-button value="login">Login</ion-segment-button>
+      <ion-segment-button value="register">Crear cuenta</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+  </ion-header>
+
+
+<ion-menu class="profile-menu" type="overlay" side="end" contentId="profile-content" menuId="profileMenu">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-menu-toggle auto-hide="true">
+        <ion-item button (click)="showPerfilModal = true">Perfil</ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle auto-hide="true">
+        <ion-item button (click)="showDireccionModal = true">Dirección</ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle auto-hide="true">
+        <ion-item button (click)="showFavoritosModal = true">Favoritos</ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+  
+</ion-menu>
+
+<ion-content class="ion-padding" id="profile-content">
+
+  <ion-loading [isOpen]="loading" message="Procesando..."></ion-loading>
+  <ion-toast [isOpen]="toastOpen" [message]="toastMessage" duration="2000" color="dark"></ion-toast>
+
+  <!-- Login -->
+  <ng-container *ngIf="segment === 'login' && !auth.isAuthenticated()">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Iniciar Sesión</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Username</ion-label>
+          <ion-input [(ngModel)]="loginUsername"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input type="email" [(ngModel)]="loginEmail"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Password</ion-label>
+          <ion-input type="password" [(ngModel)]="loginPassword"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="loginError">{{ loginError }}</ion-text>
+        <ion-button expand="block" class="cta" (click)="onLogin()">Ingresar</ion-button>
+        <ion-button expand="block" fill="outline" (click)="segment = 'register'">Crear una cuenta</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <!-- Registro -->
+  <ng-container *ngIf="segment === 'register' && !auth.isAuthenticated()">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Registro</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Username</ion-label>
+          <ion-input [(ngModel)]="regUsername"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input type="email" [(ngModel)]="regEmail"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Password</ion-label>
+          <ion-input type="password" [(ngModel)]="regPassword"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Confirmar Password</ion-label>
+          <ion-input type="password" [(ngModel)]="regConfirm"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="regError">{{ regError }}</ion-text>
+        <ion-button expand="block" class="cta" (click)="onRegister()">Registrarme</ion-button>
+        <ion-button expand="block" fill="outline" (click)="segment = 'login'">Volver a Ingresar</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <!-- cuenta -->
+  <ng-container *ngIf="auth.isAuthenticated() && segment === 'account'">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Datos personales</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Nombre</ion-label>
+          <ion-input [(ngModel)]="nombre"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Apellido</ion-label>
+          <ion-input [(ngModel)]="apellido"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Teléfono</ion-label>
+          <ion-input [(ngModel)]="telefono"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Fecha de nacimiento</ion-label>
+          <ion-input type="date" [(ngModel)]="fecha_nacimiento"></ion-input>
+        </ion-item>
+        <ion-button expand="block" class="cta" (click)="onSaveProfile()">Guardar Perfil</ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Nueva Dirección</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">País*</ion-label>
+          <ion-input [(ngModel)]="addr_pais"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Provincia*</ion-label>
+          <ion-input [(ngModel)]="addr_provincia"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Ciudad</ion-label>
+          <ion-input [(ngModel)]="addr_ciudad"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Calle*</ion-label>
+          <ion-input [(ngModel)]="addr_calle"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Localidad</ion-label>
+          <ion-input [(ngModel)]="addr_localidad"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Altura*</ion-label>
+          <ion-input [(ngModel)]="addr_altura"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Piso</ion-label>
+          <ion-input [(ngModel)]="addr_piso"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Código Postal</ion-label>
+          <ion-input [(ngModel)]="addr_cp"></ion-input>
+        </ion-item>
+        <ion-text color="medium">Campos marcados con * son obligatorios</ion-text>
+        <ion-button expand="block" class="cta" (click)="onSaveAddress()">Guardar Dirección</ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Mis Direcciones</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item *ngFor="let d of direcciones" (click)="prefillAddress(d)">
+          <ion-label>
+            <h3>{{ d.calle }} {{ d.altura }}<span *ngIf="d.piso">, {{ d.piso }}</span></h3>
+            <p>{{ d.localidad }}<span *ngIf="d.localidad && (d.ciudad || d.provincia)">, </span>{{ d.ciudad }}<span *ngIf="d.ciudad && d.provincia">, </span>{{ d.provincia }} ({{ d.pais }})</p>
+            <p *ngIf="d.codigo_postal">CP: {{ d.codigo_postal }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-text color="medium" *ngIf="!direcciones || direcciones.length === 0">No hay direcciones cargadas.</ion-text>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button color="medium" expand="block" (click)="logout()">Cerrar Sesión</ion-button>
+  </ng-container>
+
+  
+
+  <!-- Perfil -->
+  <ion-modal [isOpen]="showPerfilModal" (didDismiss)="showPerfilModal = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Perfil</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showPerfilModal = false">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div *ngIf="cliente; else noPerfil">
+          <p><strong>Nombre:</strong> {{ cliente.nombre }}</p>
+          <p><strong>Apellido:</strong> {{ cliente.apellido }}</p>
+          <p *ngIf="cliente.telefono"><strong>Teléfono:</strong> {{ cliente.telefono }}</p>
+          <p *ngIf="cliente.email"><strong>Email:</strong> {{ cliente.email }}</p>
+          <p *ngIf="cliente.fecha_nacimiento"><strong>Fecha Nac.:</strong> {{ cliente.fecha_nacimiento | date:'dd/MM/yyyy' }}</p>
+        </div>
+        <ng-template #noPerfil>
+          <ion-text>No hay datos cargados.</ion-text>
+        </ng-template>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Dirección -->
+  <ion-modal [isOpen]="showDireccionModal" (didDismiss)="showDireccionModal = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Direcciones</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showDireccionModal = false">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div *ngIf="direcciones && direcciones.length > 0; else noDirs">
+          <ion-list>
+            <ion-item *ngFor="let d of direcciones">
+              <ion-label>
+                <h3>{{ d.calle }} {{ d.altura }}<span *ngIf="d.piso">, {{ d.piso }}</span></h3>
+                <p>{{ d.localidad }}<span *ngIf="d.localidad && (d.ciudad || d.provincia)">, </span>{{ d.ciudad }}<span *ngIf="d.ciudad && d.provincia">, </span>{{ d.provincia }} ({{ d.pais }})</p>
+                <p *ngIf="d.codigo_postal">CP: {{ d.codigo_postal }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+        <ng-template #noDirs>
+          <ion-text>No hay datos cargados.</ion-text>
+        </ng-template>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Favoritos -->
+  <ion-modal [isOpen]="showFavoritosModal" (didDismiss)="showFavoritosModal = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Favoritos</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showFavoritosModal = false">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div *ngIf="favoritos && favoritos.length > 0; else noFavs">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="12" size-md="6" size-lg="4" *ngFor="let f of favoritos">
+                <ion-card>
+                  <ion-card-content>
+                    <ion-img [src]="f.imagen" alt="{{ f.nombre }}"></ion-img>
+                    <ion-card-title>{{ f.nombre }}</ion-card-title>
+                    <p class="price-usd">{{ f.precio_usd }} USD</p>
+                    <p class="price-ars">${{ f.precio_ars }} ARS</p>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+        <ng-template #noFavs>
+          <ion-text>No tienes productos favoritos aún.</ion-text>
+        </ng-template>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

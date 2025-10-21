@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { ProductosService, Producto } from '../../services/productos.service';
+import { FavoritesService } from '../../services/favorites.service';
 import { CarritoService } from '../../services/carrito.service';
 import { addIcons } from 'ionicons';
 import { 
@@ -34,6 +35,7 @@ export class HomeComponent implements OnInit {
   isCategoryView = false;
   productos: Producto[] = [];
   productoBuscado: Producto[] = [];
+  private loadedMore = false;
   
   categories = [
     { name: 'Tecnología', icon: 'laptop-outline' },
@@ -64,7 +66,8 @@ export class HomeComponent implements OnInit {
   
   constructor(
     private productosService: ProductosService,
-    private carritoService: CarritoService,
+  private carritoService: CarritoService,
+  private favorites: FavoritesService,
     private router: Router
   ) {
     addIcons({
@@ -82,17 +85,16 @@ export class HomeComponent implements OnInit {
       homeOutline
     });
 
-    // subscribe to carrito and compute totals safely
+
     this.carritoSub = this.carritoService.carrito$.subscribe(items => {
       this.cartItems = Array.isArray(items) ? items : [];
 
-      // safe numeric reduce for count
+
       this.cartCount = this.cartItems.reduce((sum, item) => {
         const qty = Number(item?.cantidad) || 0;
         return sum + qty;
       }, 0);
 
-      // safe numeric reduce for subtotal with multiple possible price fields
       this.cartSubtotal = this.cartItems.reduce((sum, item) => {
         const qty = Number(item?.cantidad) || 0;
         const price = Number(item?.precio_usd ?? item?.precioUSD ?? item?.precio ?? item?.price) || 0;
@@ -103,10 +105,21 @@ export class HomeComponent implements OnInit {
       this.cartTotal = this.cartSubtotal + this.shippingCost + this.taxes;
       this.cartTotalARS = Number.isFinite(this.cartTotal) ? Math.round(this.cartTotal * 500) : 0;
     });
+
+
+    this.favorites.favorites$.subscribe(list => {
+      this.favoriteCount = list.length;
+
+      const mark = (p: Producto) => ({
+        ...p,
+        isFavorite: this.favorites.isFavorite(p.id_productos)
+      });
+      this.productos = this.productos.map(mark);
+      this.productoBuscado = this.productoBuscado.map(mark);
+    });
   }
 
   ngOnDestroy() {
-    // avoid memory leaks
     if (this.carritoSub) {
       this.carritoSub.unsubscribe();
       this.carritoSub = undefined;
@@ -121,8 +134,15 @@ export class HomeComponent implements OnInit {
     this.cargando = true;
     this.productosService.getProductos().subscribe({
       next: (data) => {
-        this.productos = data;
-        this.productoBuscado = [...this.productos];
+        // Mostrar solo IDs 5-24 inicialmente y con imagen válida, marcando favoritos
+        const base = (data || [])
+          .filter(p => p.id_productos >= 5 && p.id_productos <= 24 && !!p.imagen && p.imagen.length > 0)
+          .map(p => ({
+            ...p,
+            isFavorite: this.favorites.isFavorite(p.id_productos)
+          }));
+        this.productos = base;
+        this.productoBuscado = [...base];
         this.cargando = false;
         console.log('Productos cargados desde backend:', this.productos);
       },
@@ -234,24 +254,39 @@ export class HomeComponent implements OnInit {
   }
 
   toggleFavorite(producto: Producto) {
+    this.favorites.toggle(producto);
+
     producto.isFavorite = !producto.isFavorite;
-    this.favoriteCount = this.productos.filter(p => p.isFavorite).length;
   }
 
   goToCategory(category: any) {
-    // Normaliza texto quitando tildes y usando minúsculas
+    // normaliza texto quitando tildes y usando minúsculas
     const normalize = (str: string) => str
       .toLowerCase()
       .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '');
+      .replace(/[\u0300-\u036f]/g, '');
 
     const categoryNameNorm = normalize(category.name);
-    this.productoBuscado = this.productos.filter((producto: Producto) => {
-      return (
-        normalize(producto.categoria || '') === categoryNameNorm &&
-        !!producto.imagen && producto.imagen.length > 0
-      );
+    // mapeo de nombres: IDs que vienen del backend. en supabase las categorías tienen valor int
+    const catIdMap: Record<string, number> = {
+      'tecnologia': 1,
+      'moda': 2,
+      'alimentos': 3,
+      'hogar': 4,
+    };
+    const targetId = catIdMap[categoryNameNorm] ?? -1;
+
+
+    const source = this.loadedMore ? this.productoBuscado : this.productos;
+
+    this.productoBuscado = source.filter((producto: Producto) => {
+      const byString = normalize(producto.categoria || '') === categoryNameNorm;
+      const byNumeric = typeof (producto as any).id_categoria === 'number' && targetId > 0
+        ? (producto as any).id_categoria === targetId
+        : false;
+      return (byString || byNumeric) && !!producto.imagen && producto.imagen.length > 0;
     });
+    this.isCategoryView = true;
   }
 
   loadMore() {
@@ -261,11 +296,21 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    // Obtener productos del servicio y filtrar por IDs 25-48 y con imagen
+    if (this.loadedMore) {
+      return; // evitar duplicados si ya cargamos 25-48
+    }
+
+    // Obtener productos del servicio y filtrar por IDs 25-48 y con imagen pq algunos no tienen
     this.productosService.getProductos().subscribe({
       next: (productos: Producto[]) => {
-        const nuevos = productos.filter(p => p.id_productos >= 25 && p.id_productos <= 48 && !!p.imagen && p.imagen.length > 0);
+        const nuevos = productos
+          .filter(p => p.id_productos >= 25 && p.id_productos <= 48 && !!p.imagen && p.imagen.length > 0)
+          .map(p => ({
+            ...p,
+            isFavorite: this.favorites.isFavorite(p.id_productos)
+          }));
         this.productoBuscado.push(...nuevos);
+        this.loadedMore = true;
       },
       error: (err) => {
         console.error('Error al cargar más productos:', err);

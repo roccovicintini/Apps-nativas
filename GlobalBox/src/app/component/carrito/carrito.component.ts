@@ -51,7 +51,7 @@ export class CarritoComponent implements OnDestroy {
 
   get subtotalUSD(): number {
     return this.carrito.reduce((sum, item) => {
-      // prefer backend field `precio_usd`, but accept legacy/alternate names safely
+      
       const precio = Number((item as any)['precio_usd'] ?? (item as any)['precioUSD'] ?? (item as any)['precio'] ?? (item as any)['price']) || 0;
       const qty = Number(item.cantidad) || 0;
       return sum + precio * qty;

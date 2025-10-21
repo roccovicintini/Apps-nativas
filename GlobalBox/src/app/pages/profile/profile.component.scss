@@ -1,0 +1,44 @@
+.header-primary {
+  --background: #003366;
+  --color: #fff;
+}
+
+.cta {
+  --background: #ff7a00;
+  --color: #fff;
+}
+
+ion-card-title {
+  font-weight: 600;
+}
+
+ion-item {
+  --highlight-color-focused: #ff7a00;
+}
+
+ion-button[fill='outline'] {
+  --color: #ff7a00;
+  --border-color: #ff7a00;
+}
+
+.profile-menu::part(container) {
+  box-shadow: 0 0 0 1px rgba(0, 51, 102, 0.14),
+              0 12px 28px rgba(0, 51, 102, 0.34),
+              0 32px 64px rgba(0, 51, 102, 0.22);
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+  border-left: 1px solid rgba(0, 51, 102, 0.12);
+  transition: box-shadow 180ms ease;
+  will-change: box-shadow;
+}
+
+.profile-menu::part(backdrop) {
+  background: rgba(0, 51, 102, 0.26);
+}
+
+.profile-menu[aria-hidden="false"]::part(container) {
+  box-shadow: 0 0 0 1px rgba(0, 51, 102, 0.18),
+              0 16px 36px rgba(0, 51, 102, 0.38),
+              0 40px 80px rgba(0, 51, 102, 0.28),
+              0 0 44px rgba(8, 58, 115, 0.35);
+}

@@ -47,8 +47,22 @@
     <ion-card-content>
       <p><strong>Estado del Pedido:</strong> {{ orderInfo.status }}</p>
       <p><strong>ID de Rastreo:</strong> {{ orderInfo.trackingId }}</p>
+      <p><strong>Método de pago:</strong> {{ orderInfo.paymentMethod || '-' }}</p>
       <p><strong>Fecha de Compra:</strong> {{ orderInfo.orderDate }}</p>
       <p><strong>Fecha Estimada de Llegada:</strong> {{ orderInfo.estimatedDate }}</p>
+
+      <ion-list *ngIf="orderInfo.items && orderInfo.items.length">
+        <ion-item>
+          <ion-label>
+            <strong>Último producto:</strong>
+            {{ orderInfo.items[orderInfo.items.length - 1].nombre }}
+            (x{{ orderInfo.items[orderInfo.items.length - 1].cantidad }})
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Total:</strong> ${{ orderInfo.total }} USD</ion-label>
+        </ion-item>
+      </ion-list>
     </ion-card-content>
   </ion-card>
 </ion-content>
