@@ -1,24 +1,28 @@
 
-// importamos express
+// importamos express y usamos pool pq la otra no me anda
 const express = require('express');
-const { Client } = require('pg');
 const cors = require('cors'); 
+const { Pool } = require('pg');
 
-// configuración de la conexión
-const client = new Client({
- user: 'postgres', 
- host: 'db.gehltasvljdhiptdtzre.supabase.co',
- database: 'postgres',
- password: 'sup4B4se03!',
- port: 5432,
- ssl: {
-     rejectUnauthorized: false
-     }
+// configuración de la conexión con la db
+const pool = new Pool({
+    user: 'postgres.gehltasvljdhiptdtzre',
+    host: 'aws-1-us-east-2.pooler.supabase.com',
+    database: 'postgres',
+    password: 'sup4B4se03!',
+    port: 6543,
+    ssl: { rejectUnauthorized: false },
+    max: 10,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 8000,
+    pool_mode: 'session',
 });
 
-client.connect()
-  .then(() => console.log('Conectado a su PostgreSQL'))
-  .catch(err => console.error('Error de conexión', err.stack));
+
+pool
+    .query('SELECT 1')
+    .then(() => console.log('Conectado a su PostgreSQL'))
+    .catch((err) => console.error('Error de conexión', err.stack));
 
 // creamos una instancia de la aplicación express
 const app = express();
@@ -35,7 +39,7 @@ const corsOptions = {
     optionsSuccessStatus: 204
 };
 
-// Aplicamos CORS como dijo el profe
+// aplicamos CORS como dijo el profe
 app.use(cors(corsOptions)); 
 app.use(express.json());
 
@@ -74,7 +78,7 @@ app.post('/api/productos', async (req, res) => {
     ];
 
      try {
-         const resultado = await client.query(query, values); 
+         const resultado = await pool.query(query, values); 
          res.status(201).json(resultado.rows[0]);
      } catch (error) {
          console.error('Error al crear producto:', error);
@@ -87,7 +91,7 @@ app.get('/api/productos', async (req, res) => {
      const query = 'SELECT * FROM productos ORDER BY id_productos ASC';
 
      try {
-         const resultado = await client.query(query); 
+         const resultado = await pool.query(query); 
          res.json(resultado.rows); 
      } catch (err) {
          console.error(err);
@@ -127,7 +131,7 @@ app.put('/api/productos/:id', async (req, res) => {
     ];
  
      try {
-         const resultado = await client.query(query, values); 
+         const resultado = await pool.query(query, values); 
          if (resultado.rowCount === 0) {
              return res.status(404).send('Producto no encontrado'); 
             }
@@ -145,7 +149,7 @@ app.delete('/api/productos/:id', async (req, res) => {
      const values = [id]; 
 
      try {
-         const resultado = await client.query(query, values); 
+         const resultado = await pool.query(query, values); 
          if (resultado.rowCount === 0) {
          return res.status(404).send('Producto no encontrado'); 
         }
@@ -164,7 +168,7 @@ app.get('/api/productos/:id', async (req, res) => {
      const values = [id];
 
      try {
-         const resultado = await client.query(query, values);
+         const resultado = await pool.query(query, values);
          if (resultado.rows.length === 0) {
          return res.status(404).send('Producto no encontrado');
         }
@@ -177,4 +181,46 @@ app.get('/api/productos/:id', async (req, res) => {
 
 app.listen(PORT, () => {
      console.log(`Servidor Express escuchando en http://localhost:${PORT}`);
+});
+
+app.post('/api/usuarios', async (req, res) => {
+    const { nombre, email, password } = req.body;
+    
+    try {
+        const query = 'INSERT INTO usuarios (nombre, email, password) VALUES ($1, $2, $3) RETURNING *';
+        const values = [nombre, email, password];
+        const resultado = await pool.query(query, values);
+        res.status(201).json(resultado.rows[0]);
+    } catch (error) {
+        console.error('Error al crear usuario:', error);
+        res.status(500).json({ error: 'Error al crear usuario' });
+    }
+});
+
+app.post('/api/cliente', async (req, res) => {
+    const { nombre, email, telefono } = req.body;
+
+    try {
+        const query = 'INSERT INTO cliente (nombre, email, telefono) VALUES ($1, $2, $3) RETURNING *';
+        const values = [nombre, email, telefono];
+        const resultado = await pool.query(query, values);
+        res.status(201).json(resultado.rows[0]);
+    } catch (error) {
+        console.error('Error al crear cliente:', error);
+        res.status(500).json({ error: 'Error al crear cliente' });
+    }
+});
+
+app.post('/api/direccion', async (req, res) => {
+    const { calle, ciudad, provincia, codigo_postal } = req.body;
+
+    try {
+        const query = 'INSERT INTO direccion (calle, ciudad, provincia, codigo_postal) VALUES ($1, $2, $3, $4) RETURNING *';
+        const values = [calle, ciudad, provincia, codigo_postal];
+        const resultado = await pool.query(query, values);
+        res.status(201).json(resultado.rows[0]);
+    } catch (error) {
+        console.error('Error al crear dirección:', error);
+        res.status(500).json({ error: 'Error al crear dirección' });
+    }
 });
