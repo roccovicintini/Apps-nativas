@@ -45,10 +45,10 @@ export class AuthService {
 
 	constructor(private http: HttpClient) {}
 
-
+// esta parte del código lo que hace es traer los datos del usuario que se loguea
 	login(username: string, email: string, password: string): Observable<LoginResponse> {
 		return this.http
-			.post<LoginResponse>(`${this.apiBase}/api/auth/login`, { username, email, password })
+			.post<LoginResponse>(`${this.apiBase}/api/usuarios`, { username, email, password })
 			.pipe(
 				tap((res) => this.persistSession(res)),
 				catchError((err) => {
@@ -60,7 +60,7 @@ export class AuthService {
 
 	register(username: string, email: string, password: string): Observable<LoginResponse> {
 		return this.http
-			.post<LoginResponse>(`${this.apiBase}/api/auth/register`, { username, email, password })
+			.post<LoginResponse>(`${this.apiBase}/api/usuarios`, { username, email, password })
 			.pipe(
 				tap((res) => this.persistSession(res)),
 				catchError((err) => {

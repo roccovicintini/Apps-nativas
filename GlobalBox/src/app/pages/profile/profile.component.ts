@@ -170,7 +170,7 @@ export class ProfileComponent implements OnInit {
         this.nombre = cli?.nombre ?? '';
         this.apellido = cli?.apellido ?? '';
         this.telefono = cli?.telefono ?? '';
-        // si viene ISO, recortamos a yyyy-MM-dd para input date
+
         this.fecha_nacimiento = cli?.fecha_nacimiento ? ('' + cli.fecha_nacimiento).substring(0, 10) : '';
 
         // Direcciones
