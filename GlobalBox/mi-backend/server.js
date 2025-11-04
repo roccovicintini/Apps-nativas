@@ -184,11 +184,11 @@ app.listen(PORT, () => {
 });
 
 app.post('/api/usuarios', async (req, res) => {
-    const { nombre, email, password } = req.body;
+    const { username, email, password } = req.body;
     
     try {
-        const query = 'INSERT INTO usuarios (nombre, email, password) VALUES ($1, $2, $3) RETURNING *';
-        const values = [nombre, email, password];
+        const query = 'INSERT INTO usuarios (username, email, password) VALUES ($1, $2, $3) RETURNING *';
+        const values = [username, email, password];
         const resultado = await pool.query(query, values);
         res.status(201).json(resultado.rows[0]);
     } catch (error) {
@@ -198,11 +198,11 @@ app.post('/api/usuarios', async (req, res) => {
 });
 
 app.post('/api/cliente', async (req, res) => {
-    const { nombre, email, telefono } = req.body;
+    const { id_usuario, nombre, apellido, email, telefono, fecha_nacimiento } = req.body;
 
     try {
-        const query = 'INSERT INTO cliente (nombre, email, telefono) VALUES ($1, $2, $3) RETURNING *';
-        const values = [nombre, email, telefono];
+        const query = 'INSERT INTO cliente (id_usuario, nombre, apellido, email, telefono, fecha_nacimiento) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+        const values = [id_usuario, nombre, apellido, email, telefono, fecha_nacimiento];
         const resultado = await pool.query(query, values);
         res.status(201).json(resultado.rows[0]);
     } catch (error) {
@@ -212,11 +212,11 @@ app.post('/api/cliente', async (req, res) => {
 });
 
 app.post('/api/direccion', async (req, res) => {
-    const { calle, ciudad, provincia, codigo_postal } = req.body;
+    const { id_usuario, pais, calle, altura, provincia, ciudad, localidad, piso, codigo_postal } = req.body;
 
     try {
-        const query = 'INSERT INTO direccion (calle, ciudad, provincia, codigo_postal) VALUES ($1, $2, $3, $4) RETURNING *';
-        const values = [calle, ciudad, provincia, codigo_postal];
+        const query = 'INSERT INTO direccion (id_usuario, pais, calle, altura, provincia, ciudad, localidad, piso, codigo_postal) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
+        const values = [id_usuario, pais, calle, altura, provincia, ciudad, localidad, piso, codigo_postal];
         const resultado = await pool.query(query, values);
         res.status(201).json(resultado.rows[0]);
     } catch (error) {

@@ -1,0 +1,7 @@
+{
+  "name": "GlobalBox",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

@@ -1,10 +1,11 @@
+// servicio de datos para interactuar con la api de productos
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-// coincide con tu backend
 export interface Producto {
+  // modelo que representa un producto tal como lo expone el backend
   id_productos: number;
   nombre: string;
   precio_usd: number;
@@ -31,11 +32,13 @@ export interface Producto {
   providedIn: 'root'
 })
 export class ProductosService {
+  // endpoint base del backend para productos
   private apiUrl = 'http://localhost:3000/api/productos';
 
   constructor(private http: HttpClient) { }
 
   getProductos(): Observable<Producto[]> {
+    // obtiene la lista de productos del backend y, si falla, devuelve un mock local
     return this.http.get<Producto[]>(this.apiUrl).pipe(
       catchError((error) => {
         console.error('Error al cargar productos del backend:', error);
@@ -45,19 +48,23 @@ export class ProductosService {
   }
 
   createProducto(producto: Producto): Observable<Producto> {
+    // crea un producto nuevo en la api
     return this.http.post<Producto>(this.apiUrl, producto);
   }
 
   updateProducto(id: number, producto: Producto): Observable<Producto> {
+    // actualiza un producto existente por id
     return this.http.put<Producto>(`${this.apiUrl}/${id}`, producto);
   }
 
   deleteProducto(id: number): Observable<any> {
+    // elimina un producto por id
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
 // por si falla la api:
   private getProductosMock(): Producto[] {
+    // datos de ejemplo para mostrar en la interfaz cuando la api no responde
     return [
       {
         id_productos: 1,

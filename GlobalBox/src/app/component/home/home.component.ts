@@ -1,3 +1,4 @@
+// imports de angular, ionic, formularios y servicios utilizados en la página de inicio
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -5,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { ProductosService, Producto } from '../../services/productos.service';
 import { FavoritesService } from '../../services/favorites.service';
 import { CarritoService } from '../../services/carrito.service';
+// registro de iconos que se usarán en la vista
 import { addIcons } from 'ionicons';
 import { 
   heartOutline, 
@@ -21,6 +23,7 @@ import {
   homeOutline,
   closeCircleOutline
 } from 'ionicons/icons';
+// router para navegar entre pantallas
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -32,11 +35,13 @@ import { Subscription } from 'rxjs';
   imports: [CommonModule, IonicModule, FormsModule]
 })
 export class HomeComponent implements OnInit {
+  // estado principal de la vista y colecciones de productos
   isCategoryView = false;
   productos: Producto[] = [];
   productoBuscado: Producto[] = [];
   private loadedMore = false;
   
+  // listado de categorías visibles en la sección de “categorías populares”
   categories = [
     { name: 'Tecnología', icon: 'laptop-outline' },
     { name: 'Moda', icon: 'shirt-outline' },
@@ -44,6 +49,7 @@ export class HomeComponent implements OnInit {
     { name: 'Hogar', icon: 'home-outline' }
   ];
   
+  // estado del carrito y derivados para mostrar totales y contadores
   cartCount = 0;
   showCart = false;
   cartItems: any[] = [];
@@ -55,21 +61,25 @@ export class HomeComponent implements OnInit {
   cartTotalARS = 0;
   showResult = false;
   
+  // valores del simulador de costos y contador de favoritos
   simValue = 100;
   simCountry = 'us';
   simCategory = 'tech';
   favoriteCount = 0;
 
+  // estados auxiliares para feedback de botones y carga de datos
   buttonStates: { [key: number]: { text: string; color: string } } = {};
   isAdding: { [key: number]: boolean } = {};
   cargando: boolean = true;
   
   constructor(
+    // inyección de dependencias: servicio de productos, carrito, favoritos y router
     private productosService: ProductosService,
   private carritoService: CarritoService,
   private favorites: FavoritesService,
     private router: Router
   ) {
+    // registrar los iconos que se van a usar en la plantilla
     addIcons({
       heartOutline,
       cartOutline,
@@ -86,6 +96,7 @@ export class HomeComponent implements OnInit {
     });
 
 
+    // suscripción al carrito para calcular contadores y totales en tiempo real
     this.carritoSub = this.carritoService.carrito$.subscribe(items => {
       this.cartItems = Array.isArray(items) ? items : [];
 
@@ -107,6 +118,7 @@ export class HomeComponent implements OnInit {
     });
 
 
+    // suscripción a favoritos para mantener el contador y marcar los productos correspondientes
     this.favorites.favorites$.subscribe(list => {
       this.favoriteCount = list.length;
 
@@ -120,6 +132,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    // limpiar suscripciones al destruir el componente
     if (this.carritoSub) {
       this.carritoSub.unsubscribe();
       this.carritoSub = undefined;
@@ -127,10 +140,12 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    // carga inicial de productos al entrar a la vista
     this.cargarProductos();
   }
 
   cargarProductos() {
+    // obtiene productos del backend y prepara la lista inicial
     this.cargando = true;
     this.productosService.getProductos().subscribe({
       next: (data) => {
@@ -155,6 +170,7 @@ export class HomeComponent implements OnInit {
   }
 
   private usarDatosLocales() {
+    // datos locales de respaldo cuando la api no responde
     const productosLocales: Producto[] = [
       {
         id_productos: 1,
@@ -227,6 +243,7 @@ export class HomeComponent implements OnInit {
   }
 
   buscarProducto(event: any) {
+    // filtra productos por nombre según el texto ingresado en el buscador
     const text = event.target.value;
     if (!text || text.trim() === '') {
       this.productoBuscado = [...this.productos];
@@ -238,6 +255,7 @@ export class HomeComponent implements OnInit {
   }
 
   addToCart(producto: Producto) {
+    // agrega un producto al carrito y muestra feedback temporal en el botón
     this.carritoService.addProducto(producto);
     const productId = producto.id_productos;
     this.isAdding[productId] = true;
@@ -250,10 +268,12 @@ export class HomeComponent implements OnInit {
   }
 
   calcularCosto() {
+    // muestra el resumen del simulador
     this.showResult = true;
   }
 
   toggleFavorite(producto: Producto) {
+    // alterna el estado de favorito y lo refleja en pantalla
     this.favorites.toggle(producto);
 
     producto.isFavorite = !producto.isFavorite;
@@ -277,8 +297,10 @@ export class HomeComponent implements OnInit {
     const targetId = catIdMap[categoryNameNorm] ?? -1;
 
 
+    // decide la fuente de datos según si ya se cargaron más ítems o no
     const source = this.loadedMore ? this.productoBuscado : this.productos;
 
+    // filtra por nombre de categoría o id numérico, manteniendo sólo productos con imagen
     this.productoBuscado = source.filter((producto: Producto) => {
       const byString = normalize(producto.categoria || '') === categoryNameNorm;
       const byNumeric = typeof (producto as any).id_categoria === 'number' && targetId > 0
@@ -290,12 +312,14 @@ export class HomeComponent implements OnInit {
   }
 
   loadMore() {
+    // si está en vista de categoría, volver a la lista completa antes de cargar más
     if (this.isCategoryView) {
       this.isCategoryView = false;
       this.productoBuscado = [...this.productos];
       return;
     }
 
+    // evitar cargas duplicadas
     if (this.loadedMore) {
       return; // evitar duplicados si ya cargamos 25-48
     }
@@ -319,40 +343,49 @@ export class HomeComponent implements OnInit {
   }
 
   toggleCart() {
+    // abre o cierra el panel del carrito
     this.showCart = !this.showCart;
   }
 
   toggleMenu() {
+    // placeholder para abrir el menú lateral
     alert('Abrir menú lateral');
   }
 
   closeCart() {
+    // cierra el panel del carrito
     this.showCart = false;
   }
 
   onCartDismiss() {
+    // evento de cierre cuando el panel se descarta
     this.showCart = false;
   }
 
   decreaseQuantity(item: any) {
+    // disminuye la cantidad del ítem si es mayor a 1
     if (item.cantidad > 1) {
       this.carritoService.updateCantidad(item.id_productos || item.id, item.cantidad - 1);
     }
   } 
 
   increaseQuantity(item: any) {
+    // aumenta la cantidad del ítem en el carrito
     this.carritoService.updateCantidad(item.id_productos || item.id, item.cantidad + 1);
   }
 
   removeItem(item: any) {
+    // elimina el ítem del carrito
     this.carritoService.removeProducto(item.id_productos || item.id);
   }
 
   calculateCost() {
+    // muestra el resultado del simulador (alias de calcularCosto)
     this.showResult = true;
   }
 
   proceedToPayment() {
+    // placeholder para navegación a la pantalla de pago
     alert('Ir a pago');
   }
 }

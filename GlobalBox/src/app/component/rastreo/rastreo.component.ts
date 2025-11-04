@@ -1,3 +1,4 @@
+// componente de rastreo: muestra estado de envíos y consulta por código
 import { Component, OnInit } from '@angular/core';
 import { TrackingService, OrderTrackingInfo } from '../../../services/tracking.service';
 import { IonicModule } from '@ionic/angular';
@@ -16,26 +17,30 @@ addIcons({ arrowForwardOutline });
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class RastreoComponent  implements OnInit {
-
+  // último pedido guardado en el servicio para mostrar un resumen
   orderInfo: OrderTrackingInfo | null = null;
 
   constructor(private trackingService: TrackingService) { }
 
   ngOnInit() {
+    // carga inicial del último pedido cuando se inicia el componente
     this.orderInfo = this.trackingService.lastOrder;
   }
 
 
   ionViewWillEnter() {
+    // refresca el estado al entrar a la vista
     this.orderInfo = this.trackingService.lastOrder;
   }
 
+  // estado del formulario de rastreo manual
   codigo: string = '';
   estado: string = '';
   ubicacion: string = '';
   fecha: string = '';
   resultadoVisible: boolean = false;
 
+  // datos de prueba locales para simular distintos estados de envío
   pedidos: any = {
     "ABC123": {
       estado: "En tránsito",
@@ -55,6 +60,7 @@ export class RastreoComponent  implements OnInit {
   };
 
   rastrearPedido() {
+    // busca el código ingresado en la tabla local y actualiza el resultado mostrado
     const pedido = this.pedidos[this.codigo.trim()];
     this.resultadoVisible = true;
 
